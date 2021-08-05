@@ -43,6 +43,8 @@ function Toc({ toc }) {
     // The default selector targets all headings (h1, h2, ..., h6) inside
     // a main element. You can pass in whatever string or array of strings
     // targets all the headings you want to appear in the ToC.
+    console.log('use effect for setting headings');
+
     const nodes = Array.from(document.querySelectorAll('h2'));
     const titles = nodes.map((node, index) => ({
       title: toc[index].title,
@@ -52,12 +54,17 @@ function Toc({ toc }) {
   }, [toc]);
   // Add scroll event listener to update currently active heading.
   useEffect(() => {
+    console.log('adds scroll listener. use effect triggered when headings is updated.');
     const scrollHandler = () => {
       const { titles, nodes } = headings;
       // Offsets need to be recomputed inside scrollHandler because
       // lazily-loaded content increases offsets as user scrolls down.
       const offsets = nodes.map((el) => accumulateOffsetTop(el));
+      // need to test if offset is calculated to be identical when you navigate vs scrolling on page
+      // console.log(offsets)
+      // console.log(window.scrollY)
       const activeIndex = offsets.findIndex((offset) => offset > window.scrollY + 45);
+      // console.log(`calculated activeIndex ${activeIndex}`);
       setActive(activeIndex === -1 ? titles.length - 1 : activeIndex - 1);
     };
     window.addEventListener(`scroll`, scrollHandler);
@@ -65,25 +72,24 @@ function Toc({ toc }) {
   }, [headings]);
   // add hash on scroll based on current active heading
   useEffect(() => {
-    const { origin, pathname, hash } = window.location;
+    console.log('changes address bar. this should fire when active or headings state chagnes');
+    const { origin, pathname } = window.location;
+    let { hash } = window.location;
     if (active === -1 || active === null) {
+      console.log(hash);
+      if (active === -1) {
+        hash = '';
+      }
+      console.log(`hash in use effect ${hash}`);
       window.history.replaceState(null, null, `${origin + pathname + hash}`);
     } else {
       window.history.replaceState(null, null, `${origin + pathname}#${headings.titles[active].id}`);
     }
   }, [active, headings]);
-  // set active should hash not be empty value
-  useEffect(() => {
-    // need to match headings.titles[active].id to window.location.hash minus the # sign
-    const { hash } = window.location;
-    const hashId = hash.split('#')[1];
 
-    if (hash) {
-      const activeIndex = headings.titles.map((title) => title.id).indexOf(hashId);
-      console.log(activeIndex);
-      setActive(activeIndex);
-    }
-  }, [active, headings]);
+  console.log(`active ${active}`);
+  console.log(`hash ${window.location.hash}`);
+  console.log(window.history);
 
   return (
     <Box p={3} className={classes.root}>
