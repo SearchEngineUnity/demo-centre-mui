@@ -56,10 +56,6 @@ function ButtonInternalLocal({
   const classes = useStyles({ padding });
   const { reference, hashId, parameter, newTab } = link[0];
 
-  console.log(
-    `/${reference.slug.current}${hashId ? `#${hashId}` : ''}${parameter ? `?${parameter}` : ''}`,
-  );
-
   return (
     <ThemeProvider theme={theme}>
       <Box textAlign={alignment}>

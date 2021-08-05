@@ -44,7 +44,6 @@ function GridFlex({
     const valueArrStr = value.split('/');
     const valueArrNum = valueArrStr.map((el) => parseInt(el, 10));
     const colObj = { lg: 12 / valueArrNum[0], md: 12 / valueArrNum[1], xs: 12 / valueArrNum[2] };
-    console.log(colObj);
     return colObj;
   };
 

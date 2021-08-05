@@ -51,6 +51,11 @@ export default function ScrollPRogressBar() {
     // probably need to unmount this listener for proper clean up?
   });
 
+  useEffect(() => {
+    calculateScrollDistance();
+    // probably need to unmount this listener for proper clean up?
+  });
+
   return (
     <LinearProgress
       variant="determinate"

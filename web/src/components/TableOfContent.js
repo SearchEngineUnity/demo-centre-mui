@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
 }));
-
 // Used to calculate each heading's offset from the top of the page.
 // This will be compared to window.scrollY to determine which heading
 // is currently active.
@@ -26,18 +25,14 @@ const accumulateOffsetTop = (el, totalOffset = 0) => {
   }
   return totalOffset;
 };
-
 function Toc({ toc }) {
   const classes = useStyles();
-
   const [headings, setHeadings] = useState({
     titles: [],
     nodes: [],
   });
-
   // Controls which heading is currently highlighted as active.
   const [active, setActive] = useState(null);
-
   // Read heading titles, depths and nodes from the DOM.
   useEffect(() => {
     // Fallback to sensible defaults for headingSelector, getTitle and getDepth
@@ -49,15 +44,12 @@ function Toc({ toc }) {
     // a main element. You can pass in whatever string or array of strings
     // targets all the headings you want to appear in the ToC.
     const nodes = Array.from(document.querySelectorAll('h2'));
-
     const titles = nodes.map((node, index) => ({
       title: toc[index].title,
       id: node.id,
     }));
-
     setHeadings({ titles, nodes });
   }, [toc]);
-
   // Add scroll event listener to update currently active heading.
   useEffect(() => {
     const scrollHandler = () => {
@@ -71,17 +63,25 @@ function Toc({ toc }) {
     window.addEventListener(`scroll`, scrollHandler);
     return () => window.removeEventListener(`scroll`, scrollHandler);
   }, [headings]);
-
   // add hash on scroll based on current active heading
   useEffect(() => {
+    const { origin, pathname, hash } = window.location;
     if (active === -1 || active === null) {
-      window.history.replaceState(null, null, ' ');
+      window.history.replaceState(null, null, `${origin + pathname + hash}`);
     } else {
-      window.history.replaceState(
-        null,
-        null,
-        `${window.location.origin + window.location.pathname}#${headings.titles[active].id}`,
-      );
+      window.history.replaceState(null, null, `${origin + pathname}#${headings.titles[active].id}`);
+    }
+  }, [active, headings]);
+  // set active should hash not be empty value
+  useEffect(() => {
+    // need to match headings.titles[active].id to window.location.hash minus the # sign
+    const { hash } = window.location;
+    const hashId = hash.split('#')[1];
+
+    if (hash) {
+      const activeIndex = headings.titles.map((title) => title.id).indexOf(hashId);
+      console.log(activeIndex);
+      setActive(activeIndex);
     }
   }, [active, headings]);
 
@@ -117,5 +117,4 @@ function Toc({ toc }) {
     </Box>
   );
 }
-
 export default Toc;
