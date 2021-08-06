@@ -87,10 +87,6 @@ function Toc({ toc }) {
     }
   }, [active, headings]);
 
-  console.log(`active ${active}`);
-  console.log(`hash ${window.location.hash}`);
-  console.log(window.history);
-
   return (
     <Box p={3} className={classes.root}>
       <Typography component="p" variant="h4" gutterBottom>

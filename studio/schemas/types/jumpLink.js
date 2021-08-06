@@ -1,7 +1,7 @@
 export default {
   name: 'jumpLink',
   type: 'object',
-  title: 'Jump Link',
+  title: 'Page Jump Link',
   fields: [
     {
       name: 'hashId',

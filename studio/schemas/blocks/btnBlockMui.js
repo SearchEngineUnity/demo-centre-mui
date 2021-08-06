@@ -33,10 +33,10 @@ export default {
       title: 'Link',
       type: 'array',
       of: [
+        { type: 'jumpLink' },
         { type: 'internalLocal' },
         { type: 'internalGlobal' },
         { type: 'externalLink' },
-        { type: 'jumpLink' },
       ],
       validation: (Rule) => Rule.length(1).error('Must contain one item'),
     },
