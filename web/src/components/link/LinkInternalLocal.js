@@ -2,9 +2,14 @@
 import React from 'react';
 import { Link } from 'gatsby-theme-material-ui';
 
-function InternalLocal({ href, children, newTab }) {
+function InternalLocal({ href, children, newTab, className }) {
   return (
-    <Link target={newTab ? '_blank' : ''} rel={newTab ? 'noopener' : ''} to={href}>
+    <Link
+      target={newTab ? '_blank' : ''}
+      rel={newTab ? 'noopener' : ''}
+      to={href}
+      className={className}
+    >
       {children}
     </Link>
   );

@@ -128,7 +128,7 @@ const serializers = {
       const baseSlug = slug.current === '/' ? `/` : `/${slug.current}`;
       const href = `${baseSlug}${hashId ? `#${hashId}` : ''}${parameter ? `?${parameter}` : ''}`;
       return (
-        <InternalLocal href={href} newTab={newTab}>
+        <InternalLocal href={href} newTab={newTab} className="pt-link">
           {children}
         </InternalLocal>
       );
@@ -136,7 +136,7 @@ const serializers = {
     internalGlobal: ({ mark, children }) => {
       const { href, newTab } = mark;
       return (
-        <InternalGlobal href={href} newTab={newTab}>
+        <InternalGlobal href={href} newTab={newTab} className="pt-link">
           {children}
         </InternalGlobal>
       );
@@ -144,27 +144,31 @@ const serializers = {
     externalLink: ({ mark, children }) => {
       const { href, noreferrer, newTab } = mark;
       return (
-        <ExternalLink href={href} noreferrer={noreferrer} newTab={newTab}>
+        <ExternalLink href={href} noreferrer={noreferrer} newTab={newTab} className="pt-link">
           {children}
         </ExternalLink>
       );
     },
     jumpLink: ({ mark, children }) => {
       const { hashId } = mark;
-      return <JumpLink hash={hashId}>{children}</JumpLink>;
+      return (
+        <JumpLink hash={hashId} className="pt-link">
+          {children}
+        </JumpLink>
+      );
     },
-    inlineImage: ({ mark, children }) => {
-      switch (mark._type) {
-        case 'inlineImage':
-          if (mark.asset) {
-            return <InlineImage image={mark} alt={children[0]} />;
-          }
-          return null;
+    // inlineImage: ({ mark, children }) => {
+    //   switch (mark._type) {
+    //     case 'inlineImage':
+    //       if (mark.asset) {
+    //         return <InlineImage image={mark} alt={children[0]} />;
+    //       }
+    //       return null;
 
-        default:
-          return <p>doesn't work</p>; // eslint-disable-line
-      }
-    },
+    //     default:
+    //       return <p>doesn't work</p>; // eslint-disable-line
+    //   }
+    // },
   },
   list: ({ children }) => {
     switch (children[0].props.node.listItem) {

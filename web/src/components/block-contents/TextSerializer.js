@@ -64,7 +64,7 @@ const serializers = {
       const baseSlug = slug.current === '/' ? `/` : `/${slug.current}`;
       const href = `${baseSlug}${hashId ? `#${hashId}` : ''}${parameter ? `?${parameter}` : ''}`;
       return (
-        <InternalLocal href={href} newTab={newTab}>
+        <InternalLocal href={href} newTab={newTab} className="pt-link">
           {children}
         </InternalLocal>
       );
@@ -72,7 +72,7 @@ const serializers = {
     internalGlobal: ({ mark, children }) => {
       const { href, newTab } = mark;
       return (
-        <InternalGlobal href={href} newTab={newTab}>
+        <InternalGlobal href={href} newTab={newTab} className="pt-link">
           {children}
         </InternalGlobal>
       );
@@ -80,14 +80,18 @@ const serializers = {
     externalLink: ({ mark, children }) => {
       const { href, noreferrer, newTab } = mark;
       return (
-        <ExternalLink href={href} noreferrer={noreferrer} newTab={newTab}>
+        <ExternalLink href={href} noreferrer={noreferrer} newTab={newTab} className="pt-link">
           {children}
         </ExternalLink>
       );
     },
     jumpLink: ({ mark, children }) => {
       const { hashId } = mark;
-      return <JumpLink hash={hashId}>{children}</JumpLink>;
+      return (
+        <JumpLink hash={hashId} className="pt-link">
+          {children}
+        </JumpLink>
+      );
     },
   },
 };
