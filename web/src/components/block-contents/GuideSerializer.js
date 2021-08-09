@@ -1,7 +1,6 @@
 import BaseBlockContent from '@sanity/block-content-to-react';
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import { Link } from 'gatsby-theme-material-ui';
 import styled from 'styled-components';
 import VideoEmbed from './VideoEmbed';
 import BasicTable from './BasicTable';

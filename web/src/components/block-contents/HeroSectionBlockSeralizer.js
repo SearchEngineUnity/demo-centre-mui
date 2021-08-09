@@ -1,7 +1,6 @@
 import BaseBlockContent from '@sanity/block-content-to-react';
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import { Link } from 'gatsby-theme-material-ui';
 import styled from 'styled-components';
 import VideoEmbed from './VideoEmbed';
 import BasicTable from './BasicTable';
@@ -9,7 +8,10 @@ import Illustration from './Illustration';
 import InlineImage from './InlineImage';
 import HighlightBox from './HightlightBox/HighlightBox';
 import SmartTable from './SmartTable';
-// import CopyLink from './CopyLink';
+import JumpLink from '../link/JumpLink';
+import ExternalLink from '../link/LinkExternal';
+import InternalGlobal from '../link/LinkInternalGlobal';
+import InternalLocal from '../link/LinkInternalLocal';
 
 const NoIndentUl = styled.ul`
   margin-left: 1.4rem;
@@ -101,36 +103,36 @@ const serializers = {
     },
   },
   marks: {
-    internalLink: ({ mark, children }) => {
+    internalLocal: ({ mark, children }) => {
       const { slug = {} } = mark.reference;
-      const href = slug.current === '/' ? `/` : `/${slug.current}`;
+      const { newTab, hashId, parameter } = mark;
+      const baseSlug = slug.current === '/' ? `/` : `/${slug.current}`;
+      const href = `${baseSlug}${hashId ? `#${hashId}` : ''}${parameter ? `?${parameter}` : ''}`;
       return (
-        <Link to={href} color="initial" className="pt-link">
+        <InternalLocal href={href} newTab={newTab}>
           {children}
-        </Link>
+        </InternalLocal>
+      );
+    },
+    internalGlobal: ({ mark, children }) => {
+      const { href, newTab } = mark;
+      return (
+        <InternalGlobal href={href} newTab={newTab}>
+          {children}
+        </InternalGlobal>
       );
     },
     externalLink: ({ mark, children }) => {
-      const { href } = mark;
+      const { href, noreferrer, newTab } = mark;
       return (
-        <Link
-          to={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          color="initial"
-          className="pt-link"
-        >
+        <ExternalLink href={href} noreferrer={noreferrer} newTab={newTab}>
           {children}
-        </Link>
+        </ExternalLink>
       );
     },
     jumpLink: ({ mark, children }) => {
-      const { idTag } = mark;
-      return (
-        <Link to={`#${idTag}`} color="initial" className="pt-link">
-          {children}
-        </Link>
-      );
+      const { hashId } = mark;
+      return <JumpLink hash={hashId}>{children}</JumpLink>;
     },
     inlineImage: ({ mark, children }) => {
       switch (mark._type) {
