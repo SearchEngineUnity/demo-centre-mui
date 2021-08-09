@@ -57,7 +57,7 @@ function ButtonJumpLink({
 
   return (
     <ThemeProvider theme={theme}>
-      <Box textAlign={alignment}>
+      <Box textAlign={alignment} py={3}>
         <Button
           id={idTag}
           color="primary"

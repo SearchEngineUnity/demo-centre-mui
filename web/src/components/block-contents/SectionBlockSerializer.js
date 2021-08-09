@@ -12,6 +12,11 @@ import JumpLink from '../link/JumpLink';
 import ExternalLink from '../link/LinkExternal';
 import InternalGlobal from '../link/LinkInternalGlobal';
 import InternalLocal from '../link/LinkInternalLocal';
+import ButtonExternal from '../buttons/ButtonExternal';
+import ButtonInternalGlobal from '../buttons/ButtonInternalGlobal';
+import ButtonInternalLocal from '../buttons/ButtonInternalLocal';
+import ButtonJumpLInk from '../buttons/ButtonJumpLink';
+import { mapMuiBtnToProps } from '../../lib/mapToProps';
 
 const NoIndentUl = styled.ul`
   margin-left: 1.4rem;
@@ -93,6 +98,20 @@ const serializers = {
     },
     videoEmbed({ node }) {
       return <VideoEmbed url={node.url} ratio={node.ratio} />;
+    },
+    btnBlockMui({ node }) {
+      switch (node.link[0]._type) {
+        case 'jumpLink':
+          return <ButtonJumpLInk {...mapMuiBtnToProps(node)} />;
+        case 'internalLocal':
+          return <ButtonInternalLocal {...mapMuiBtnToProps(node)} />;
+        case 'internalGlobal':
+          return <ButtonInternalGlobal {...mapMuiBtnToProps(node)} />;
+        case 'externalLink':
+          return <ButtonExternal {...mapMuiBtnToProps(node)} />;
+        default:
+          return <p>under development</p>;
+      }
     },
   },
   marks: {
