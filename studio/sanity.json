@@ -18,7 +18,8 @@
     "media",
     "@sanity/dashboard",
     "dashboard-widget-netlify",
-    "dashboard-widget-gatsby"
+    "dashboard-widget-gatsby",
+    "@sanity/production-preview"
   ],
   "env": {
     "development": {
@@ -37,8 +38,8 @@
       "path": "./deskStructure.js"
     },
     {
-      "implements": "part:@sanity/base/document-actions/resolver",
-      "path": "resolveDocumentActions.js"
+      "implements": "part:@sanity/production-preview/resolve-production-url",
+      "path": "./resolveProductionUrl.js"
     },
     {
       "implements": "part:@sanity/form-builder/input/image/asset-sources",

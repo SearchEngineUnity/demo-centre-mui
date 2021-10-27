@@ -12,8 +12,6 @@ const {
 } = process.env;
 const isNetlifyProduction = NETLIFY_ENV === 'production';
 const siteUrl = isNetlifyProduction ? NETLIFY_SITE_URL : NETLIFY_DEPLOY_URL;
-console.log(NETLIFY_ENV);
-console.log(NODE_ENV);
 
 module.exports = {
   siteMetadata: {
@@ -93,6 +91,10 @@ module.exports = {
           },
         },
       },
+    },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/preview/*`] },
     },
   ],
 };
